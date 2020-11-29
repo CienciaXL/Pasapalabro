@@ -51,5 +51,5 @@ class letter:
     # Create the circle and plot it...
     circle = Circle(xy=(self.x,self.y),radius=self.size,color=self.color)
     ax.add_patch(circle)
-    ax.text(self.x,self.y,self.label,horizontalalignment='center',verticalalignment='center',fontsize=15,color='white')
+    ax.text(self.x,self.y,self.label,horizontalalignment='center',verticalalignment='center',fontsize=18,color='white',weight='bold')
 
