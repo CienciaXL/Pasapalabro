@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.widgets import Slider, Button, RadioButtons
+from matplotlib.backend_bases import MouseButton
 from letter import letter
 
 
@@ -28,9 +29,11 @@ def IsPointInEllipse(p, c, r):
 
 class rosco:
 
-  def __init__(self, letters=None, radius=1, bkgcolor='k', basecolor='indigo'):
+  def __init__(self, letters=None, radius=1, bkgcolor='k', basecolor='indigo', name='Rosco'):
     self.bkgcolor=bkgcolor
     self.fig, self.ax = plt.subplots(facecolor=self.bkgcolor)
+    self.fig.canvas.set_window_title(name) 
+    self.fig.set_size_inches(8,8) 
     self.margin = 1.2
     plt.xlim(-radius*self.margin, radius*self.margin)
     plt.ylim(-radius*self.margin, radius*self.margin)
@@ -81,7 +84,7 @@ class rosco:
       R = [r*mX, r*mY]
       if IsPointInEllipse(P, C, R): 
         print("Click en letra: %s"%self.letters[i].label)
-        self.letters[i].ChangeColor()
+        self.letters[i].ChangeColor(event.button)
         self.letters[i].Draw(self.ax)
         self.fig.canvas.draw()
 
@@ -89,7 +92,7 @@ class rosco:
     #ani = animation.FuncAnimation(self.fig, self.update, init_func=self.init, frames=(10), interval=80, blit=True)
     self.update(0)
     self.fig.canvas.mpl_connect('button_press_event', self.changeColor)
-    plt.show()
+    self.fig.show()
     #return ani
 
 if __name__ == '__main__':

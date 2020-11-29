@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
 from matplotlib.widgets import Button
+from matplotlib.backend_bases import MouseButton
 
 
 class letter:
@@ -17,7 +18,7 @@ class letter:
     self.size = size
     self.color = color
     self.basecolor = color
-    self.selectColor = 'y'
+    self.selectColor = 'darkviolet'
     self.greenColor = 'g'
     self.redColor = 'r'
     self.textsize=textsize
@@ -28,7 +29,7 @@ class letter:
     self.size = size
 
   def SetColor(self, color):
-    self.color = color
+    self.color  = color
 
   def SetLabel(self, label):
     self.label = label
@@ -44,10 +45,21 @@ class letter:
     self.button = Button(tempax, '', color='w', hovercolor=self.selectColor)
     self.button.on_clicked(self.ChangeColor)
 
-  def ChangeColor(self):
+  def ChangeColor(self, button):
     nextcolor = self.basecolor
-    if   self.color == self.basecolor: nextcolor = self.greenColor
-    elif self.color == self.greenColor: nextcolor = self.redColor
+    colors = [self.basecolor, self.selectColor, self.greenColor, self.redColor]
+    if   button == MouseButton.MIDDLE: 
+      nextcolor = self.basecolor
+    elif button == MouseButton.LEFT  :
+      if   self.color == self.basecolor  : nextcolor = self.selectColor
+      elif self.color == self.selectColor: nextcolor = self.greenColor
+      elif self.color == self.greenColor : nextcolor = self.redColor
+      elif self.color == self.redColor   : nextcolor = self.basecolor
+    elif button == MouseButton.RIGHT :
+      if   self.color == self.basecolor  : nextcolor = self.redColor
+      elif self.color == self.redColor   : nextcolor = self.greenColor
+      elif self.color == self.greenColor : nextcolor = self.selectColor
+      elif self.color == self.selectColor: nextcolor = self.basecolor
     print('[%s] Moving color from %s to %s'%(self.label, self.color, nextcolor))
     self.SetColor(nextcolor)
 

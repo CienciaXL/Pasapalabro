@@ -6,9 +6,9 @@ from matplotlib.widgets import Slider, Button, RadioButtons
 from letter import letter
 
 
-class counter:
+class timeCounter:
 
-  def __init__(self, radius=1, color='b', bkgcolor='k', numberColor='w', name='Marcador', maxPoints=25):
+  def __init__(self, totalTime=300, radius=1, color='b', bkgcolor='k', numberColor='w', name='Tiempo'):
     self.bkgcolor=bkgcolor
     self.fig, self.ax = plt.subplots(facecolor=self.bkgcolor)
     self.fig.set_size_inches(4,4) 
@@ -17,13 +17,13 @@ class counter:
     plt.xlim(-radius*self.margin, radius*self.margin)
     plt.ylim(-radius*self.margin, radius*self.margin)
     self.radius = radius
-    self.letter = letter(0,0,0, size=radius/2, color=color, textsize=30)
+    self.letter = letter(0,0,totalTime, size=radius/2, color=color, textsize=30)
     self.letter.Draw(self.ax)
     self.plots=[]
     self.initAx()
     self.run = False
-    self.points = 0
-    self.maxPoints = maxPoints
+    self.lastdt = 0
+    self.itime = totalTime
 
   def initAx(self):
     self.ax.set_facecolor(self.bkgcolor)
@@ -45,21 +45,22 @@ class counter:
     return []
 
   def runtime(self, event):
-    self.points += 1
-    if self.points > self.maxPoints: self.points = 0
-    self.letter.SetLabel(str(self.points))
-    self.letter.Update(self.ax)
-    self.fig.canvas.draw()
+    self.run = not self.run
+    if self.run:
+      self.t0 = time.time()
+    else:
+      self.lastdt = self.lastdt + (time.time() - self.t0)
+    #self.sec = self.sec-1
+    #self.letter.SetLabel(str(self.sec-1))
 
   def draw(self):
-    #ani = animation.FuncAnimation(self.fig, self.update, init_func=self.init, frames=(10), interval=80, blit=True)
-    self.update(0)
+    ani = animation.FuncAnimation(self.fig, self.update, init_func=self.init, frames=(10), interval=80, blit=True)
+    #self.update(0)
     self.fig.canvas.mpl_connect('button_press_event', self.runtime)
     self.fig.show()
-    #plt.show()
     #return ani
 
 if __name__ == '__main__':
-  p = counter()
+  p = timeCounter()
   p.draw()
 
