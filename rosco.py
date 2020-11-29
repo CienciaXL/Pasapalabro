@@ -28,8 +28,9 @@ def IsPointInEllipse(p, c, r):
 
 class rosco:
 
-  def __init__(self, letters=None, radius=1, basecolor='indigo'):
-    self.fig, self.ax = plt.subplots(facecolor='w')
+  def __init__(self, letters=None, radius=1, bkgcolor='k', basecolor='indigo'):
+    self.bkgcolor=bkgcolor
+    self.fig, self.ax = plt.subplots(facecolor=self.bkgcolor)
     self.margin = 1.2
     plt.xlim(-radius*self.margin, radius*self.margin)
     plt.ylim(-radius*self.margin, radius*self.margin)
@@ -53,11 +54,12 @@ class rosco:
       self.lpos.append(mytrans.transform(rect[0:2]))
 
   def initAx(self):
-    self.ax.xaxis.label.set_color('w')
-    self.ax.yaxis.label.set_color('w')
-    self.ax.tick_params(axis='x', colors='w')
-    self.ax.tick_params(axis='y', colors='w')
-    for l in ['bottom', 'top', 'left', 'right']: self.ax.spines[l].set_color('w')
+    self.ax.set_facecolor(self.bkgcolor)
+    self.ax.xaxis.label.set_color(self.bkgcolor)
+    self.ax.yaxis.label.set_color(self.bkgcolor)
+    self.ax.tick_params(axis='x', colors=self.bkgcolor)
+    self.ax.tick_params(axis='y', colors=self.bkgcolor)
+    for l in ['bottom', 'top', 'left', 'right']: self.ax.spines[l].set_color(self.bkgcolor)
     #for l in self.letters: l.CreateButton(self.ax)
 
   def init(self):
