@@ -5,6 +5,10 @@ Descarga el código:
 
     git clone https://github.com/CienciaXL/Pasapalabro.git
 
-Ejecuta el código:
+Crea un rosco:
 
-    python run.py
+    python rosco.py
+
+O un contador:
+
+    python contador.py
