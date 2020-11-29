@@ -92,3 +92,7 @@ class rosco:
     plt.show()
     #return ani
 
+if __name__ == '__main__':
+  p = rosco()
+  p.draw()
+

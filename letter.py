@@ -10,7 +10,7 @@ class letter:
   You can set the central coordinates, the letter, 
   the radius of the circle and the color (b by default)
   '''
-  def __init__(self, x, y, label, size=0.1, color='b', radius=1):
+  def __init__(self, x, y, label, size=0.1, color='b', radius=1, textsize=18):
     self.x = x
     self.y = y
     self.label = label
@@ -20,6 +20,7 @@ class letter:
     self.selectColor = 'y'
     self.greenColor = 'g'
     self.redColor = 'r'
+    self.textsize=textsize
     #self.tempax = plt.axes([-1.2*radius, -1.2*radius, 2*radius, 2*radius])
     #self.CreateButton()
 
@@ -28,6 +29,9 @@ class letter:
 
   def SetColor(self, color):
     self.color = color
+
+  def SetLabel(self, label):
+    self.label = label
 
   def CreateButton(self, ax):
     #figx, figy = ax.transAxes.transform((self.x, self.y))
@@ -49,7 +53,10 @@ class letter:
 
   def Draw(self,ax):
     # Create the circle and plot it...
-    circle = Circle(xy=(self.x,self.y),radius=self.size,color=self.color)
-    ax.add_patch(circle)
-    ax.text(self.x,self.y,self.label,horizontalalignment='center',verticalalignment='center',fontsize=18,color='white',weight='bold')
+    self.circle = Circle(xy=(self.x,self.y),radius=self.size,color=self.color)
+    ax.add_patch(self.circle)
+    self.text = ax.text(self.x,self.y,self.label,horizontalalignment='center',verticalalignment='center',fontsize=self.textsize,color='white',weight='bold')
 
+  def Update(self, ax):
+    self.text.remove()
+    self.Draw(ax)
