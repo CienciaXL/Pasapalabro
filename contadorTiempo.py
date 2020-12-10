@@ -3,6 +3,7 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.widgets import Slider, Button, RadioButtons
+from matplotlib.backend_bases import MouseButton
 from letter import letter
 
 
@@ -50,6 +51,9 @@ class timeCounter:
       self.t0 = time.time()
     else:
       self.lastdt = self.lastdt + (time.time() - self.t0)
+
+    if event.button == MouseButton.RIGHT:
+      self.itime += 1
     #self.sec = self.sec-1
     #self.letter.SetLabel(str(self.sec-1))
 

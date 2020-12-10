@@ -3,6 +3,7 @@ import time
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.widgets import Slider, Button, RadioButtons
+from matplotlib.backend_bases import MouseButton
 from letter import letter
 
 
@@ -45,7 +46,10 @@ class counter:
     return []
 
   def runtime(self, event):
-    self.points += 1
+    if event.button == MouseButton.RIGHT:
+      self.points -= 1
+    else:
+      self.points += 1
     if self.points > self.maxPoints: self.points = 0
     self.letter.SetLabel(str(self.points))
     self.letter.Update(self.ax)
